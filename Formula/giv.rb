@@ -1,0 +1,22 @@
+# Tap: brew tap cjp2600/giv && brew install giv
+# Upstream: https://github.com/cjp2600/giv
+
+class Giv < Formula
+  desc "Terminal UI for reviewing git changes with a file tree and syntax-highlighted preview"
+  homepage "https://github.com/cjp2600/giv"
+  url "https://github.com/cjp2600/giv/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "b9f61e08396cf7e0881a77aa9121f981088c59e589862b4cf8f57d4fb9c7b24d"
+  license "MIT"
+  head "https://github.com/cjp2600/giv.git", branch: "main"
+
+  depends_on "go" => :build
+
+  def install
+    system "go", "build", *std_go_args, "./cmd/giv"
+  end
+
+  test do
+    output = shell_output("#{bin}/giv --hotkey")
+    assert_match "Tab", output
+  end
+end
